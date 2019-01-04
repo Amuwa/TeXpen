@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>article.tex</file>
+        <file>slide.tex</file>
+    </qresource>
+</RCC>

@@ -1,0 +1,67 @@
+<html>
+<body>
+  <canvas id="the-canvas" style="border:1px solid black"></canvas>
+
+  <!-- Use latest PDF.js build from Github -->
+  <script type="text/javascript" src="https://raw.github.com/mozilla/pdf.js/gh-pages/build/pdf.js"></script>
+
+  <script type="text/javascript">
+    //
+    // NOTE:
+    // Modifying the URL below to another server will likely *NOT* work. Because of browser
+    // security restrictions, we have to use a file server with special headers
+    // (CORS) - most servers don't support cross-origin browser requests.
+    //
+    var url = 'http://mozilla.github.io/pdf.js/web/compressed.tracemonkey-pldi-09.pdf';
+	var pdffile = ''
+	var BASE64_MARKER = ';base64,';
+
+	function convertDataURIToBinary(dataURI) {
+	  var base64Index = dataURI.indexOf(BASE64_MARKER) + BASE64_MARKER.length;
+	  var base64 = dataURI.substring(base64Index);
+	  var raw = window.atob(base64);
+	  var rawLength = raw.length;
+	  var array = new Uint8Array(new ArrayBuffer(rawLength));
+
+	  for(var i = 0; i < rawLength; i++) {
+		array[i] = raw.charCodeAt(i);
+	  }
+	  return array;
+	}
+
+    //
+    // Disable workers to avoid yet another cross-origin issue (workers need the URL of
+    // the script to be loaded, and dynamically loading a cross-origin script does
+    // not work)
+    //
+    PDFJS.disableWorker = true;
+
+    //
+    // Asynchronous download PDF as an ArrayBuffer
+    //
+    PDFJS.getDocument(convertDataURIToBinary(pdffile)).then(function getPdfHelloWorld(pdf) {
+      //
+      // Fetch the first page
+      //
+      pdf.getPage(1).then(function getPageHelloWorld(page) {
+        var scale = 1.5;
+        var viewport = page.getViewport(scale);
+
+        //
+        // Prepare canvas using PDF page dimensions
+        //
+        var canvas = document.getElementById('the-canvas');
+        var context = canvas.getContext('2d');
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+
+        //
+        // Render PDF page into canvas context
+        //
+        page.render({canvasContext: context, viewport: viewport});
+      });
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,14 @@
+[Desktop Entry]
+Name=TeXpen
+Name[zh_CN]=TeXpen
+Comment=editing LaTeX documents
+Keywords=tex;
+StartupNotify=true
+Terminal=false
+Type=Application
+Categories=Editor;
+MimeType=application/text-tex;application/tex;
+Icon=/usr/share/icons/texpen.png
+Exec=/usr/local/bin/texpen %F
+
+

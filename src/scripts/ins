@@ -1,0 +1,10 @@
+#!/bin/bash
+echo "Instaling..."
+cd /media/mengchang/OS/Users/MengChang/Dropbox/Piwaldo/texpen/scripts/
+cp /media/mengchang/OS/Users/MengChang/Dropbox/Piwaldo/540/Release/texpen /usr/local/bin/
+cp /media/mengchang/OS/Users/MengChang/Dropbox/Piwaldo/texpen/scripts/texpen.png /usr/share/icons/ 
+cp /media/mengchang/OS/Users/MengChang/Dropbox/Piwaldo/texpen/scripts/texpen.desktop /usr/share/applications/
+chmod +x /usr/local/bin/texpen
+echo "Installation Finished."
+
+

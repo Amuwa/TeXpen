@@ -1,0 +1,211 @@
+\documentclass[12pt]{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage{graphicx}
+\usepackage{wasysym}
+\usepackage{marvosym}
+\usepackage{float}
+\usepackage{color}
+\usepackage{xcolor}
+
+
+%\usepackage{fontspec}
+%\setsansfont{DejaVu Serif}%
+%\setmainfont[Mapping=tex-text]{Times New Roman} %
+
+%\usepackage{times}
+%\usepackage{charter}
+\usepackage{mathpazo}
+%\usepackage{mathdesign}
+%\usepackage{ccfonts}     % Font family: Concrete Math
+%\usepackage[scaled=0.9]{helvet}
+%\usepackage{courier}
+%\usefonttheme[onlymath]{serif}
+\usefonttheme{serif}
+
+%%%% A command that allow a tabular in a table cell
+\newcommand{\tabincell}[2]{\begin{tabular}{@{}#1@{}}#2\end{tabular}} 
+%%usage: \tabincell{c}{haha\\ heihei\\zeze}
+
+
+
+
+
+%%cetering the frame title
+\setbeamertemplate{frametitle}
+{
+	\begin{centering}
+		\color{black}{\textsl{\large  \insertframetitle}}
+		\par
+		%\insertframesubtitle
+		%\par
+		\end{centering}
+}
+\setbeamertemplate{blocktitle}
+{
+	\color{blue}{\normal \insertblocktitle}
+	\par
+}
+
+
+%\renewcommand{\baselinestretch}{1.0}
+\linespread{0.90}
+
+%%%%%%%%%TikZ
+\usepackage{pgf}
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes}
+%%%%%%%%%TikZ
+
+\usepackage{lastpage}%for total pages
+\usepackage{subfigure} %for sub-figures
+\usepackage{moresize}   %more font sizes
+
+
+
+%Global Background must be put in preamble
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%Setting the Global Background of the slides here
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usebackgroundtemplate%
+{%
+%%%\includegraphics[width=\paperwidth,height=\paperheight]{a-background-pic.png}%
+}
+
+\begin{document}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%% Text Body Here
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%  Title Frame %%%%%%%
+\begin{frame}
+\begin{center}
+{\Large \textit{{\TeX}pen} for Slides (beamer) }\\
+$E=mc^{2}$
+
+\end{center}
+
+\vspace{1cm}
+\scriptsize
+Why donate a cup of coffee to Dr. WANG MengChang via PayPal, or in person if you are in Singapore.
+
+\begin {itemize}
+\item Home Page: {\href{http://www.journalhome.com/texpen/}{http://www.journalhome.com/texpen/}}
+\item Donation Page: {\href{http://www.journalhome.com/texpen/Donation/}{http://www.journalhome.com/texpen/Donation/}}
+\end{itemize}
+
+
+
+
+\end{frame}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%% Content Fames
+
+%%%%%%%%% This is a Fame
+\begin{frame}{This is a Frame}
+\begin{center}
+\scriptsize
+\begin{tabular}{clll}
+$\cdot$ & Item1    & {\TeX}pen is sexy.             & (Ture) \\
+$\cdot$ & Item2    & {\TeX}pen is smart 	   & (Not really) \\
+\end{tabular}
+\end{center}
+
+\begin{center}
+You can insert a figure here
+%%\includegraphics[width=0.7\paperwidth]{somepic.png}
+  \usetikzlibrary{mindmap}
+      % !TIKZEDT BOUNDINGBOX = -3 -3 8 5
+      \begin{tikzpicture}[mindmap,concept color=blue!80]
+      \node [concept] {Root concept}
+      child[concept color=red,grow=30] {node[concept] {Child concept}}
+      child[concept color=orange,grow=0] {
+	node[concept] {Child concept}{
+		child[concept color=green,grow=30] {node[concept] {Child concept}} 
+	}
+      }
+      child[concept color=orange,grow=-30] {
+      	node[concept] {Child conceptx}
+	{
+      		child[concept color=green,grow=0] {node[concept] {Child concept}} 
+	}
+      };
+      \end{tikzpicture}
+    
+\end{center}
+\end{frame}
+%%%%%%%%% End of a Fame
+
+
+
+\begin{frame}{Frame Title}
+$\cdot$ {\scriptsize  {\TeX}pen is sexy. }\\
+$\cdot$ {\scriptsize  {\TeX}pen is sexy.  }
+
+%%To devide the remain part of the page into two columns
+\begin{columns}
+\begin{column}{.5\textwidth}
+	\begin{center}
+		\resizebox{\textwidth}{!}{%
+			Col 1:
+			A Figure here
+			%%\input{figs/FurnacesSSMC.pgf}
+		}
+	\end{center}
+\end{column}
+\begin{column}{.5\textwidth}
+	\begin{center}
+		\resizebox{\textwidth}{!}{% force to scale the tikz picture into a width
+			Col 2:
+			A Figure here
+			%%\input{figs/FurnacesSSMC2.pgf}
+		}
+	\end{center}
+\end{column}
+\end{columns}
+%%occupy the rest space, so that more goodlook
+\vspace{2cm}
+$\;$
+\end{frame}
+
+
+
+\begin{frame}{Frame Title}
+Here is a table:
+\scriptsize
+\begin{center}
+\begin{tabular}{lcclrrrr}
+\hline
+Tool Grp & Num.  & Capa.  & QTime					& Avr. Util			& $\frac{RUN}{RUN+LOST}$	& WIP	& Waiting \\  \hline
+AFH1 &	16  & 1$\sim$6   &   - 					&  79.3\%   			& 87.6\%	& 1050.8	& 8.9 \\
+AFG1 &	7   & 1$\sim$6  &  4hr 					&  90.8\%  			& 93.8\%	& 88.6 	& 0.7 \\
+AFG2 &	3   & 1$\sim$4.5  & 4hr 					&  90.7\%   			& 93.8\%	& 298.7	& 6.5	\\
+\hline
+\end{tabular}
+\end{center}
+
+$\cdot$ {\small Special Issues}
+\begin{enumerate}\setlength{\itemsep}{3mm}
+\item {\scriptsize \textbf{Ahaha}:  some text }
+\item {\scriptsize \textbf{Blala}: some thing   }
+\end{enumerate}
+\vspace{2cm}
+$\;$
+\end{frame}
+
+
+
+\end{document}

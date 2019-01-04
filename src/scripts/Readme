@@ -1,0 +1,27 @@
+=====  TeXpen =====
+
+LaTeX Editor (Linux Release)
+
+(Qt 4 libs are required)
+
+Install(maybe need root privileges: su / sudo / ...):
+	./ins
+
+Remove(maybe need root privileges: su / sudo / ...):
+	./uns
+
+Webpage:
+	http://www.journalhome.com/texpen/
+	http://texpen.quora.com
+
+Source Code:
+	http://git.oschina.net/wangmengchang/texpen
+	http://sf.net/p/texpen
+
+Authors:
+	MengChang Wang  <wangmengchang@gmail.com>
+	Alex S.         <alex_sr97@outlook.com>
+
+
+
+

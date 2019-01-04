@@ -1,0 +1,34 @@
+#!/bin/bash
+
+d=""
+d="TeXpen-linux-"$(eval 'date +%Y%m%d')".tar"
+echo "d="$d
+
+cd ~/tmp/texpen
+rm ~/tmp/texpen/*
+cp /home/maxwell/DropBox/Dropbox/tmp/TeXpen-linux-bin/ins ~/tmp/texpen/
+cp /home/maxwell/DropBox/Dropbox/tmp/TeXpen-linux-bin/uns ~/tmp/texpen/
+cp /home/maxwell/DropBox/Dropbox/tmp/TeXpen-linux-bin/Readme ~/tmp/texpen/
+cp /home/maxwell/DropBox/Dropbox/tmp/TeXpen-linux-bin/texpen.desktop ~/tmp/texpen/
+cp /home/maxwell/DropBox/Dropbox/tmp/TeXpen-linux-bin/texpen.png ~/tmp/texpen/
+cp /home/maxwell/Downloads/build-textpen/texpen ~/tmp/texpen/
+
+
+chmod +x ins
+chmod +x uns
+chmod +x texpen
+chmod +x texpen.desktop
+
+cd ~/tmp/
+
+if test -e $d; then
+echo '(2/6) '$d' 已经存在, 正在删除...'
+rm $d
+else
+echo '(2/6) '$d' 不存在，准备创建...'
+fi
+
+echo '(3/6) 正在创建 '$d'...'
+tar -zcf $d texpen
+echo '    '$d'创建完毕.'
+

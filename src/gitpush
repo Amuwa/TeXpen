@@ -1,0 +1,36 @@
+#!/bin/bash
+git add *.txt
+git add *.pro
+git add *.ico
+git add *.rc
+git add gitpush
+git add headers/* 
+git add sources/*
+git add 3rd-party/*
+git add 3rd-party/hunspell/*
+git add 3rd-party/ginger/*
+git add 3rd-party/AWL/*
+git add 3rd-party/pdf-js/*
+git add 3rd-party/pdf-js/web/*
+git add 3rd-party/pdf-js/web/cmaps/*
+git add 3rd-party/pdf-js/web/images/*
+git add 3rd-party/pdf-js/web/locale/*
+git add 3rd-party/pdf-js/build/*
+git add Templates/*.tex
+git add Templates/*.qrc
+git add ui/*
+git add images/*
+git add images/icons/*
+git add images/icons/24x24/*
+git add images/icons/48x48/*
+
+git add docs/*
+git add docs/figs/*
+
+
+git commit -m "line number and file saving/reading improvement"
+git push origin master
+
+
+
+

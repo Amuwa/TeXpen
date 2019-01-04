@@ -1,0 +1,9 @@
+#!/bin/bash
+echo "Removing TeXpen..."
+rm /usr/local/bin/texpen
+rm /usr/share/icons/texpen.png
+rm /usr/share/applications/texpen.desktop
+echo "TeXpen Removed."
+
+
+
