@@ -142,7 +142,9 @@ void MainWindow::Initialize() {
     proc=NULL;
     run = new RunThread(this);
     run->setWindow(this);
+#ifdef USE_WEBKIT
     ag=NULL;
+#endif
 
     // Set the TextEdit as the central widget of the window
     setCentralWidget(TextEdit);
@@ -539,16 +541,21 @@ void MainWindow::CreateEquationview(){
     QFrame* af = new QFrame(this);
     af->setFixedHeight(2);
     equationview->setTitleBarWidget(af);
-
+#ifdef USE_WEBKIT
     equation = new QWebView;
+#endif
+#ifdef USE_QT_WEB_ENGINE
+    equation = new QWebEngineView;
+#endif
     equationview->setWidget(equation);
     addDockWidget(Qt::BottomDockWidgetArea, equationview);
     //equation->load(QUrl("http://chart.apis.google.com/chart?cht=tx&chl=\\sum \\alpha\\geq\\frac{\\beta}{\\sum a}\\text{good yes}"));
     //qDebug()<<"判断当前光标，是否处在公式环境中，如果是，则调用api"<<endl;
     equationview->hide();
 }
-
+#ifdef USE_WEBKIT
 #include <QWebFrame>
+#endif
 void MainWindow::CreateWikiView(){
     wikiview = new QDockWidget(this);
     wikiview->setWindowTitle("Wikipedia");
@@ -562,12 +569,16 @@ void MainWindow::CreateWikiView(){
         wikiview->hide();
         connect(wiki, SIGNAL(askToHideSideWidget()),this,SLOT(hideSideView()));
         connect(wiki, SIGNAL(loadFinished(bool)),this,SLOT(ParseGinger()));
+#ifdef USE_WEBKIT
         connect(wiki->page()->mainFrame(), SIGNAL(javaScriptWindowObjectCleared()),this,SLOT(bindJSobj()));
+
         bindJSobj();
 
         QFrame* af = new QFrame(this);
         af->setFixedHeight(1);
         wikiview->setTitleBarWidget(af);
+#endif
+
 }
 
 void MainWindow::CreateStatusbar() {

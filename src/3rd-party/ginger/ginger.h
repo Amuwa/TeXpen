@@ -11,11 +11,13 @@
 #include <QNetworkReply>
 #include <QNetworkRequest>
 #include <QUrl>
-#include <QWebPage>
 
+#ifdef USE_WEBKIT
+#include <QWebPage>
 #include <QScriptEngine>
 #include <QScriptValue>
 #include <QScriptValueIterator>
+
 
 ///////////////////////////////
 ///
@@ -91,5 +93,7 @@ signals:
 public slots:
     void onDataReady();
 };
+
+#endif //use webkit
 
 #endif // GINGER_H

@@ -29,7 +29,7 @@ int main(int argc, char *argv[]) {
     Texpen.setApplicationName("TeXpen");
     Texpen.setApplicationVersion("0.7.3-2");
 
-
+#ifdef USE_WEBKIT
     QWebSettings::globalSettings ()->setAttribute(QWebSettings::JavascriptEnabled,true);
     QWebSettings::globalSettings ()->setAttribute(QWebSettings::JavascriptCanOpenWindows,false);
     QWebSettings::globalSettings ()->setAttribute(QWebSettings::JavascriptCanAccessClipboard,true);
@@ -41,7 +41,7 @@ int main(int argc, char *argv[]) {
     QWebSettings::globalSettings ()->setAttribute(QWebSettings::LocalContentCanAccessFileUrls,true);
     QWebSettings::globalSettings ()->setAttribute(QWebSettings::OfflineWebApplicationCacheEnabled,true);
     QWebSettings::globalSettings ()->setAttribute(QWebSettings::PluginsEnabled,true);
-
+#endif
 
     MainWindow Window;
     if(argc > 1){

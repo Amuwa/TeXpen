@@ -1,4 +1,6 @@
 #include "ginger.h"
+
+#ifdef USE_WEBKIT
 #include <QDebug>
 #include <QScriptEngine>
 #include <QScriptValue>
@@ -456,6 +458,6 @@ QScriptValue JSON::CreateValue(const QVariant& value, QScriptEngine& engine)
     return engine.newVariant(value);
 }
 
-
+#endif
 
 

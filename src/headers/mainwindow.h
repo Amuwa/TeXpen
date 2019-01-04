@@ -28,7 +28,12 @@
 #include <QToolBar>
 #include <QStatusBar>
 #include <QLabel>
-#include <QWebView>
+#ifdef USE_QT_WEB_ENGINE
+    #include <QWebEngineView>
+#else
+    #include <QWebView>
+#endif
+
 #include <QListWidget>
 //#include <Qsci/qsciscintilla.h>
 
@@ -305,12 +310,19 @@ private:
     QDockWidget* outline;
         QTreeWidget* structure;
     QDockWidget* equationview;
+#ifdef USE_WEBKIT
         QWebView* equation;
+#endif
+#ifdef USE_QT_WEB_ENGINE
+        QWebEngineView* equation;
+#endif
     QList<QTreeWidgetItem*> ItemList;
 
     QDockWidget* wikiview;
         WebView* wiki;
+#ifdef USE_WEBKIT
         Ginger* ag;
+#endif
 
     StructureThread* structureThread;
 

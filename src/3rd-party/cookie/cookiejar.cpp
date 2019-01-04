@@ -74,7 +74,9 @@
 #include <QtNetwork/QNetworkCookie>
 #endif
 
+#ifdef USE_WEBKIT
 #include <QWebSettings>
+#endif
 
 #include <QtCore/QDebug>
 
@@ -257,13 +259,13 @@ QList<QNetworkCookie> CookieJar::cookiesForUrl(const QUrl &url) const
     CookieJar *that = const_cast<CookieJar*>(this);
     if (!m_loaded)
         that->load();
-
+#ifdef USE_WEBKIT
     QWebSettings *globalSettings = QWebSettings::globalSettings();
     if (globalSettings->testAttribute(QWebSettings::PrivateBrowsingEnabled)) {
         QList<QNetworkCookie> noCookies;
         return noCookies;
     }
-
+#endif
     return QNetworkCookieJar::cookiesForUrl(url);
 }
 
@@ -271,11 +273,11 @@ bool CookieJar::setCookiesFromUrl(const QList<QNetworkCookie> &cookieList, const
 {
     if (!m_loaded)
         load();
-
+#ifdef USE_WEBKIT
     QWebSettings *globalSettings = QWebSettings::globalSettings();
     if (globalSettings->testAttribute(QWebSettings::PrivateBrowsingEnabled))
         return false;
-
+#endif
     QString host = url.host();
     bool eBlock = qBinaryFind(m_exceptions_block.begin(), m_exceptions_block.end(), host) != m_exceptions_block.end();
     bool eAllow = qBinaryFind(m_exceptions_allow.begin(), m_exceptions_allow.end(), host) != m_exceptions_allow.end();

@@ -440,14 +440,19 @@ void MainWindow::hideSideView(){
 
 
 //only to show results on wiki, not to manage the on/off of side view (wikiview)
+#ifdef USE_WEBKIT
 #include <QWebFrame>
+#endif
+
 #include <3rd-party/ginger/ginger.h>
 
 
 void MainWindow::bindJSobj(){
     qDebug()<<"binding JS obj..."<<endl;
+#ifdef USE_WEBKIT
     wiki->page()->mainFrame()->addToJavaScriptWindowObject("PDFFILE",this);
     wiki->page()->mainFrame()->evaluateJavaScript("PDFFILE.Debug('Binded.')");
+#endif
 }
 
 void MainWindow::Debug(QString info){
@@ -465,13 +470,16 @@ int MainWindow::getPDFPage(){
 //He have been right for many yeas with his insignts      for both theory and practicex.
 QString parseGJson(QString orgsec, QString json){
     QString rs = "";
-
+#ifdef USE_WEBKIT
     JSON js;
     rs +=
             js.getMistakes(json, orgsec);
     rs+="<br><br><br><br><hr><b>WARNING:</b><br><font color=\"crimson\">Suggested by machines (www.gingersoftware.com), so please take your own risks.</font><br><br>";
+#endif
 
-    //rs += "<b>Debug info:</b>"+ json;
+#ifdef USE_QT_WEB_ENGINE
+    rs = "<b>Not implemented</b>";
+#endif
     return rs;
 }
 
@@ -488,7 +496,14 @@ void MainWindow::ParseGinger(){
         if(!url.contains("ginger") || url.contains("about:blank") || url.isEmpty()){
             return;
         }else{
+#ifdef USE_WEBKIT
             QString json = wiki->page()->mainFrame()->toPlainText();
+#endif
+#ifdef USE_QT_WEB_ENGINE
+            QString json ="";
+            wiki->page()->toPlainText([&json](const QString &rs){json=rs;});//[textEdit](const QString &result){ textEdit->setPlainText(result); }
+#endif
+
             QString nosug = "<h3>No Suggstions</h3><br>May be the phrase: <br><br><font color=\"green\"><i>"+lastGingerSec+"</i></font><br><br><b>is correct.</b><br><br><b>OR</b><br><br><font color=\"grey\">the server makes a mistake (try again?)</font>";
             QString res = nosug;
             if(json.contains("{") && json.contains("}")){
@@ -691,7 +706,7 @@ void MainWindow::preview(){
     qDebug()<<"w0 = "<<w<<endl;    
 
     if(!wikiview->isHidden()){
-        if(wikiview->windowTitle().toLower().contains("pdf")){
+        if(wikiview->windowTitle().toLower().contains(".pdf")){
             pdfpage = getPage(wiki);
             wikiview->hide();            
             return;
@@ -717,6 +732,7 @@ void MainWindow::preview(){
     wikiview->setFixedWidth(w);
 
     wikiview->show();
+
     if(FileName.isEmpty()){
         pdfBase64 ="";
         //QString ur = "qrc:/pdf-js/web/viewer.html";//"file://C:/viewer.html";//+a.absolutePath()+"/web/viewer.html";
@@ -725,8 +741,11 @@ void MainWindow::preview(){
         qDebug()<<u.toString()<<endl;
         wiki->load(u);
     }else{
+
         QFileInfo ff(FileName);        
         QString fu = ff.absolutePath()+"/"+ff.baseName()+".pdf";//QUrl::fromLocalFile(ff.absolutePath()+"/"+ff.baseName()+".pdf").toString();//
+
+#ifdef USE_WEBKIT
         QFile pdf(fu);
         if(pdf.open(QIODevice::ReadOnly)){
             pdfBase64 =pdf.readAll();
@@ -745,7 +764,16 @@ void MainWindow::preview(){
         qDebug()<<"C++ getPDF():\n"<<getPDF()<<"\n=====\n"<<endl;
         qDebug()<<QString("%1").arg(getPDF().count())<<" bytes"<<endl;
         bindJSobj();
+
         wiki->page()->mainFrame()->load(u);
+#endif
+#ifdef USE_QT_WEB_ENGINE
+        QString pathToPDFjs = "qrc:///pdf-js/web/viewer.html";//a.absolutePath()+"/web/viewer.html";//
+        QString loc = pathToPDFjs + QString("?file=file://") + fu;
+        qDebug()<<"loading ["+loc+"]..."<<endl;
+        QUrl u = QUrl::fromUserInput(loc);
+        wiki->page()->load(u);
+#endif
     }
 
 
@@ -856,8 +884,12 @@ void MainWindow::realtimePreview(){
 
     QString html = cnt.replace("####",txt);
 
-
+#ifdef USE_WEBKIT
     wiki->page()->mainFrame()->setHtml(html);
+#endif
+#ifdef USE_QT_WEB_ENGINE
+    wiki->page()->setHtml(html);
+#endif
 
      wikiview->show();
 

@@ -13,7 +13,9 @@
 #include <QDebug>
 
 #include <QFile>
+#ifdef USE_WEBKIT
 #include <QWebFrame>
+#endif
 
 
 //QtConcurrent::run
@@ -30,13 +32,16 @@ void asyncRun(MainWindow* wnd, QString& prog, QStringList& arglist){
 
 #include <QFile>
 #include <QDir>
+
+#ifdef USE_WEBKIT
 #include <QWebFrame>
 #include <QWebElement>
 #include <QWebElementCollection>
+#endif
 
 QString getPage(WebView* v){
     //"pageNumber"
-
+#ifdef USE_WEBKIT
     QWebElement ec = v->page()->mainFrame()->findFirstElement("#pageNumber");
     if(ec.isNull()){
         return "0";
@@ -47,6 +52,17 @@ QString getPage(WebView* v){
         //qDebug()<<"Page = "<<page<<",  xpage = "<<xpage<<endl;
         return page;
     }
+#endif
+
+#ifdef USE_QT_WEB_ENGINE
+    QString pg ="0";
+    v->page()->runJavaScript(
+                "function getpage(){var v = document.getElementById('pageNumber');return v.value;} getpage();",
+                [&pg](const QVariant &rs) { qDebug() << rs.toString(); pg=rs.toString();}
+    );
+    return pg;
+#endif
+
 }
 
 
@@ -55,12 +71,16 @@ void MainWindow::onCmdFinish(){
     runCommand->setStatusTip(tr("Run: %1").arg(Settings.theCommand));
     runCommand->setText(tr("Build"));
 
+#ifdef USE_WEBKIT
     QWebSettings::clearMemoryCaches ();//!!!
+#endif
 
     if(!wikiview->isHidden()){
         if(wikiview->windowTitle().toLower().contains("pdf")){
             pdfpage = getPage(wiki);
+#ifdef USE_WEBKIT
             QWebSettings::clearMemoryCaches ();//!!!
+#endif
             QString basePath = QDir::homePath()+"/.TeXpen/pdf-js/";
             QFileInfo ff(FileName);
             //QString ur = "file://"+basePath+"web/viewer.html?file="+ff.absolutePath()+"/"+ff.baseName()+".pdf#"+page;
@@ -113,13 +133,22 @@ void MainWindow::showMsg(QString str){
     html += str;
     html.replace("\n","<br>");
     html.append("</font>");
-
+#ifdef USE_WEBKIT
     QPoint sp = equation->page()->mainFrame()->scrollPosition();
+#endif
+#ifdef USE_QT_WEB_ENGINE
+    QPointF sp = equation->page()->scrollPosition();
+#endif
     if(sp.x() >= 25535){
         int pos = html.length()/2.0;
         html=html.mid(pos);
     }else{
+#ifdef USE_WEBKIT
         html = equation->page()->mainFrame()->toHtml()+html;
+#endif
+#ifdef USE_QT_WEB_ENGINE
+        equation->page()->toHtml([&html](const QString rs){html = rs+html;});
+#endif
     }
 
 
@@ -127,7 +156,13 @@ void MainWindow::showMsg(QString str){
     //equation->scroll(0,2536);
 
     sp += QPoint(0,25530);
+#ifdef USE_WEBKIT
     equation->page()->mainFrame()->setScrollPosition(sp);
+#endif
+#ifdef USE_QT_WEB_ENGINE
+    //equation->scroll((int)sp.x,(int)sp.y);
+#endif
+
     equationview->show();
 }
 
@@ -142,13 +177,22 @@ void MainWindow::readProcOutput(){
     html.append(ba);
     html.replace("\n","<br>");
     html.append("</font>");
-
+#ifdef USE_WEBKIT
     QPoint sp = equation->page()->mainFrame()->scrollPosition();
+#endif
+#ifdef USE_QT_WEB_ENGINE
+    QPointF sp = equation->page()->scrollPosition();
+#endif
     if(sp.x() >= 25535){
         int pos = html.length()/2.0;
         html=html.mid(pos);
     }else{
+#ifdef USE_WEBKIT
         html = equation->page()->mainFrame()->toHtml()+html;
+#endif
+#ifdef USE_QT_WEB_ENGINE
+        equation->page()->toHtml([&html](const QString rs){html = rs+html;});
+#endif
     }
 
 
@@ -156,6 +200,11 @@ void MainWindow::readProcOutput(){
     //equation->scroll(0,2536);
 
     sp += QPoint(0,25530);
+#ifdef USE_WEBKIT
     equation->page()->mainFrame()->setScrollPosition(sp);
+#endif
+#ifdef USE_QT_WEB_ENGINE
+    //equation->scroll((int)sp.x,(int)sp.y);
+#endif
     equationview->show();
 }
