@@ -160,7 +160,7 @@ win32{
 
     ICON = images/icons/texpen.icns
     greaterThan(QT_MAJOR_VERSION, 4): {
-        QMAKE_MAC_SDK = macosx10.9
+        QMAKE_MAC_SDK = macosx
     }else: {
         #QMAKE_MAC_SDK += "/Xcode3.2.3/SDKs/MacOSX10.6.sdk"
         #:/Xcode3.2.3/usr/bin
