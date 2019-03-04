@@ -18,3 +18,8 @@ moc_*.cpp
 qrc_*.cpp
 Makefile
 *-build-*
+
+.qmake.stash
+moc_predefs.h
+texpen.app/
+ui_cmdconfigdialog.h
