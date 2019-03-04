@@ -24,11 +24,11 @@ BUILD:
 		qmake & make
 
 	For OS X users:
-        Install Xcode from Mac App Store.
-        Install Qt develop package from Homebrew:
-        brew install qt
-        brew cask install qt-creator
-        then using QtCreator to build the project "texpen.pro"
+		Install Xcode from Mac App Store.
+		Install Qt develop package from Homebrew:
+		brew install qt
+		brew cask install qt-creator
+		then using QtCreator to build the project "texpen.pro"
 
 	For Windows users:
 		Install Qt developing packages (qt-sdk)
