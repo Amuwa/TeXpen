@@ -18,10 +18,17 @@ FAST BUILD:
 	make
 
 BUILD:
-	For Linux/Unix/OS X users:
+	For Linux/Unix users:
 		Install Qt development packages (qt-sdk or qt4-* )
 		Using QtCreator to build the project "texpen.pro",  OR 
 		qmake & make
+
+	For OS X users:
+        Install Xcode from Mac App Store.
+        Install Qt develop package from Homebrew:
+        brew install qt
+        brew cask install qt-creator
+        then using QtCreator to build the project "texpen.pro"
 
 	For Windows users:
 		Install Qt developing packages (qt-sdk)
