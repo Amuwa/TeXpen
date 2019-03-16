@@ -56,11 +56,7 @@ void RunThread::execute(Command cmd){
         if(proc != NULL){delete proc;}
         proc = NULL;
         QString msg(e.what());
-<<<<<<< HEAD
-        qDebug()<<"[execute]:"<<msg<<endl;
-=======
         qDebug()<<"execute error :" << msg << endl;
->>>>>>> master
     }
 
     try{
@@ -315,20 +311,8 @@ void RunThread::onError(QProcess::ProcessError er){
             break;
     }
 
-<<<<<<< HEAD
-    if(proc != NULL){
-        proc->terminate();
-        delete proc;
-        proc=NULL;
-    }
-
-    qDebug()<<"proc object deleted"<<endl;
-
-    emit(updateStatus(QString("Building error!!")));
-=======
     if(wnd!=NULL){
         wnd->onCmdFailed();
     }
->>>>>>> master
 }
 

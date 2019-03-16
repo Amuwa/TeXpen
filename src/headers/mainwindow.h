@@ -189,11 +189,7 @@ private slots:
     //runcommand.cpp
 public slots:
     void onCmdFinish();
-<<<<<<< HEAD
-    void onCmdUpdateStatus(QString msg);
-=======
     void onCmdFailed();
->>>>>>> master
 private slots:
     void onRun();
     void onConfig();
