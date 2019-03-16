@@ -189,6 +189,7 @@ private slots:
     //runcommand.cpp
 public slots:
     void onCmdFinish();
+    void onCmdFailed();
 private slots:
     void onRun();
     void onConfig();

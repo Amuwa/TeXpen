@@ -31,6 +31,11 @@ void RunThread::runNext(){
                 wnd->showMsg(ex.what());
             }
         }
+    } else {
+        if(wnd!=NULL){
+            qDebug()<<"runNext()... call onCmdFailed"<< endl;
+            wnd->onCmdFailed();
+        }
     }
     qDebug()<<"runNext()...finished."<<endl;
 }
@@ -49,7 +54,7 @@ void RunThread::execute(Command cmd){
         }
     }catch(std::exception e){
         QString msg(e.what());
-        qDebug()<<msg<<endl;
+        qDebug()<<"execute error :" << msg << endl;
     }
 
     try{
@@ -304,5 +309,8 @@ void RunThread::onError(QProcess::ProcessError er){
             break;
     }
 
+    if(wnd!=NULL){
+        wnd->onCmdFailed();
+    }
 }
 
