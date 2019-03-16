@@ -121,6 +121,12 @@ void MainWindow::onCmdFinish(){
 
 }
 
+void MainWindow::onCmdFailed()
+{
+    onCmdFinish();
+    equation->setHtml("Building error.");
+}
+
 void MainWindow::onRun(){
 
     //run->start();
@@ -138,10 +144,10 @@ void MainWindow::onRun(){
         equationview->setWindowTitle("Build Information");
         equation->setHtml("running...<br>");
         equationview->show();
-        run->run();
         runCommand->setIcon(QIcon(":/icons/icons/24x24/media-playback-stop.png"));
         runCommand->setStatusTip(tr("Stop building"));
         runCommand->setText(tr("Stop building"));
+        run->run();
     }
     return;
 }
