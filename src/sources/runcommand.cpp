@@ -65,6 +65,24 @@ QString getPage(WebView* v){
 
 }
 
+void MainWindow::onCmdUpdateStatus(QString msg){
+    if(run != NULL && run->isCmdRunning()){
+        runCommand->setIcon(QIcon(":/icons/icons/24x24/media-playback-stop.png"));
+        runCommand->setText(tr("Stop building"));
+        runCommand->setStatusTip(tr("Stop building"));
+    }else{
+        runCommand->setIcon(QIcon(":/icons/icons/24x24/media-playback-start.png"));
+        runCommand->setText(tr("Start building"));
+        runCommand->setStatusTip(tr("Run: %1").arg(Settings.theCommand));
+    }
+    if(msg.length()>0){
+        qDebug()<<"TO SHOW: "<<msg<<endl;
+        //showMsg(msg);
+        //equation->setHtml("running error.<br>");
+    }
+    return;
+}
+
 
 void MainWindow::onCmdFinish(){
     runCommand->setIcon(QIcon(":/icons/icons/24x24/media-playback-start.png"));
@@ -163,7 +181,13 @@ void MainWindow::showMsg(QString str){
     //equation->scroll((int)sp.x,(int)sp.y);
 #endif
 
+    try{
     equationview->show();
+    }catch(std::exception e){
+        QString xxmsg(e.what());
+        qDebug()<<xxmsg<<endl;
+    }
+    qDebug()<<"show msg over."<<endl;
 }
 
 void MainWindow::readProcOutput(){

@@ -32,6 +32,7 @@ public:
     void StopAll();
 signals:
     void nextCMD();
+    void updateStatus(QString);
     
 public slots:
     void read();
