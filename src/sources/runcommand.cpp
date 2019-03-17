@@ -145,7 +145,7 @@ void MainWindow::showMsg(QString str){
     QPointF sp = equation->page()->scrollPosition();
 #endif
     if(sp.x() >= 25535){
-        int pos = html.length()/2.0;
+        int pos = html.length()/2;
         html=html.mid(pos);
     }else{
 #ifdef USE_WEBKIT
@@ -195,14 +195,14 @@ void MainWindow::readProcOutput(){
     QPointF sp = equation->page()->scrollPosition();
 #endif
     if(sp.x() >= 25535){
-        int pos = html.length()/2.0;
+        int pos = html.length()/2;
         html=html.mid(pos);
     }else{
 #ifdef USE_WEBKIT
         html = equation->page()->mainFrame()->toHtml()+html;
 #endif
 #ifdef USE_QT_WEB_ENGINE
-        equation->page()->toHtml([&html](const QString rs){html = rs+html;});
+        /// equation->page()->toHtml([&html](const QString rs){html = rs+html;});
 #endif
     }
 
