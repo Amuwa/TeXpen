@@ -200,14 +200,13 @@ void MainWindow::readProcOutput(){
     }else{
 #ifdef USE_WEBKIT
         html = equation->page()->mainFrame()->toHtml()+html;
+        equation->setHtml(html);
 #endif
 #ifdef USE_QT_WEB_ENGINE
-        /// equation->page()->toHtml([&html](const QString rs){html = rs+html;});
+        equation->page()->runJavaScript("document.body.innerHTML += '" + html + "';" + "window.scrollTo(0,document.body.scrollHeight);");
 #endif
     }
 
-
-    equation->setHtml(html);
     //equation->scroll(0,2536);
 
     sp += QPoint(0,25530);
