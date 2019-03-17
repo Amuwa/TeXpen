@@ -191,7 +191,7 @@ void MainWindow::readProcOutput(){
         html = equation->page()->mainFrame()->toHtml()+html;
 #endif
 #ifdef USE_QT_WEB_ENGINE
-        equation->page()->toHtml([&html](const QString rs){html = rs+html;});
+        /// equation->page()->toHtml([&html](const QString rs){html = rs+html;});
 #endif
     }
 
