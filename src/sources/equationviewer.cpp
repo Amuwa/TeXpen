@@ -706,7 +706,7 @@ void MainWindow::preview(){
     qDebug()<<"w0 = "<<w<<endl;    
 
     if(!wikiview->isHidden()){
-        if(wikiview->windowTitle().toLower().contains(".pdf")){
+        if(wikiview->windowTitle().toLower().contains("pdf")){
             pdfpage = getPage(wiki);
             wikiview->hide();            
             return;
