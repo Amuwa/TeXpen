@@ -39,28 +39,29 @@ void asyncRun(MainWindow* wnd, QString& prog, QStringList& arglist){
 #include <QWebElementCollection>
 #endif
 
-QString getPage(WebView* v){
+QString getPage(WebView* v, QString* pg){
     //"pageNumber"
 #ifdef USE_WEBKIT
     QWebElement ec = v->page()->mainFrame()->findFirstElement("#pageNumber");
     if(ec.isNull()){
-        return "0";
+        *pg = "0";
+        return *pg;
     }
     else {
         //QString page = ec.attribute("value");
-        QString page = ec.evaluateJavaScript("this.value").toString();
+        *pg = ec.evaluateJavaScript("this.value").toString();
         //qDebug()<<"Page = "<<page<<",  xpage = "<<xpage<<endl;
-        return page;
+        return *pg;
     }
 #endif
 
 #ifdef USE_QT_WEB_ENGINE
-    QString pg ="0";
+    *pg ="0";
     v->page()->runJavaScript(
                 "function getpage(){var v = document.getElementById('pageNumber');return v.value;} getpage();",
-                [&pg](const QVariant &rs) { qDebug() << rs.toString(); pg=rs.toString();}
+                [pg](const QVariant &rs) { qDebug() << rs.toString(); *pg=rs.toString();}
     );
-    return pg;
+    return *pg;
 #endif
 
 }
@@ -76,7 +77,7 @@ void MainWindow::onCmdFinish(){
 
     if(!wikiview->isHidden()){
         if(wikiview->windowTitle().toLower().contains("pdf")){
-            pdfpage = getPage(wiki);
+            pdfpage = getPage(wiki, &pdfpage);
 #ifdef USE_WEBKIT
             QWebSettings::clearMemoryCaches ();//!!!
 #endif

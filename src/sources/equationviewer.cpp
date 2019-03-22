@@ -693,8 +693,8 @@ void preparePDFjs(){
 
 }
 
-
-extern QString getPage(WebView* v);
+// the return value is not reliable,use the out param!
+extern QString getPage(WebView* v, QString* pg);
 #include <QDir>
 #include <QFrame>
 
@@ -707,7 +707,7 @@ void MainWindow::preview(){
 
     if(!wikiview->isHidden()){
         if(wikiview->windowTitle().toLower().contains("pdf")){
-            pdfpage = getPage(wiki);
+            pdfpage = getPage(wiki, &pdfpage);
             wikiview->hide();            
             return;
         }
@@ -845,7 +845,7 @@ void MainWindow::realtimePreview(){
     int w =int(TextEdit->geometry().width()*0.95/2);
     if(!wikiview->isHidden()){
 //        if(wikiview->windowTitle().toLower().contains("preview")){
-//            pdfpage = getPage(wiki);
+//            pdfpage = getPage(wiki, &pdfpage);
 //            wikiview->hide();
 //            return;
 //        }
