@@ -18,16 +18,25 @@
 // along with textpad-editor.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "QApplication"
+#include <QQmlApplicationEngine>
 #include "headers/mainwindow.h"
 #include <QDebug>
 #include <exception>
 
+#include "headers/qqtexedit.h"
 
 int main(int argc, char *argv[]) {
     QApplication Texpen(argc, argv);
 
     Texpen.setApplicationName("TeXpen");
     Texpen.setApplicationVersion("0.7.3-2");
+
+    QCommandLineParser parser;
+    parser.setApplicationDescription("TeXpen");
+    parser.addHelpOption();
+    const QCommandLineOption qmlOption("qml", "use qml user interface");
+    parser.addOption(qmlOption);
+    parser.process(Texpen);
 
 #ifdef USE_WEBKIT
     QWebSettings::globalSettings ()->setAttribute(QWebSettings::JavascriptEnabled,true);
@@ -43,18 +52,31 @@ int main(int argc, char *argv[]) {
     QWebSettings::globalSettings ()->setAttribute(QWebSettings::PluginsEnabled,true);
 #endif
 
-    MainWindow Window;
-    if(argc > 1){
-        QString fn=QString::fromLocal8Bit(argv[1]);
-                //fromUtf8(argv[1]);
-        Window.OpenFile(fn);
-    }
-    Window.show();
+    if (!parser.isSet(qmlOption)) {
+        MainWindow Window;
+        if(argc > 1){
+            QString fn=QString::fromLocal8Bit(argv[1]);
+            //fromUtf8(argv[1]);
+            Window.OpenFile(fn);
+        }
+        Window.show();
 
-    try{
+        try{
+            return Texpen.exec();
+        }catch(...){
+            qDebug()<<"Something goes wrong !!!"<<endl;
+            return -1;
+        }
+    } else {
+        QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+
+        QQmlApplicationEngine engine;
+        //engine.addImportPath("qrc:///");
+        qmlRegisterType<QQTeXEdit>("QQTeXEdit", 1, 0, "QQTeXEdit");
+        engine.load(QUrl(QStringLiteral("qrc:///sources/ExpMainWindow.qml")));
+        if (engine.rootObjects().isEmpty())
+            return -1;
+
         return Texpen.exec();
-    }catch(...){
-        qDebug()<<"Something goes wrong !!!"<<endl;
-        return -1;
     }
 }

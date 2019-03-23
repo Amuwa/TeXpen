@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>sources/ExpMainWindow.qml</file>
+        <file>sources/SettingPage.qml</file>
+    </qresource>
+</RCC>

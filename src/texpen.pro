@@ -1,7 +1,7 @@
 # Copyright of Current Edition(TeXPen): Copyright (C) 2013  Amuwa King, <phd.wang.mch@gmail.com>
 # Original TextPad: Copyright (C) 2013  Alex S. <alex_sr97@outlook.com>
 # See License.txt file that comes with this distribution
-QT       += core gui network
+QT       += core gui network quick qml
 QT       += printsupport
 TARGET    = texpen
 TEMPLATE  = app
@@ -58,7 +58,8 @@ SOURCES += \
     3rd-party/AutoWriter/autowriter.cpp \
     3rd-party/cookie/autosaver.cpp \
     3rd-party/cookie/cookiejar.cpp \
-    sources/shortcmds.cpp
+    sources/shortcmds.cpp \
+    headers/qqtexedit.cpp
 
 HEADERS += \
     headers/mainwindow.h \
@@ -74,7 +75,8 @@ HEADERS += \
     headers/FileSaver.h \
     3rd-party/AutoWriter/autowriter.h \
     3rd-party/cookie/autosaver.h \
-    3rd-party/cookie/cookiejar.h
+    3rd-party/cookie/cookiejar.h \
+    headers/qqtexedit.h
 
 RESOURCES += \
     images/images.qrc \
@@ -82,7 +84,8 @@ RESOURCES += \
     Templates/templates.qrc \
     3rd-party/pdf-js.qrc \
     3rd-party/qwl.qrc \
-    3rd-party/mathjax.qrc
+    3rd-party/mathjax.qrc \
+    quick.qrc
 
 FORMS += \
     ui/cmdconfigdialog.ui
@@ -160,13 +163,17 @@ win32{
 
     ICON = images/icons/texpen.icns
     greaterThan(QT_MAJOR_VERSION, 4): {
-        QMAKE_MAC_SDK = macosx10.9
+        QMAKE_MAC_SDK = macosx
     }else: {
         #QMAKE_MAC_SDK += "/Xcode3.2.3/SDKs/MacOSX10.6.sdk"
         #:/Xcode3.2.3/usr/bin
-        QMAKE_MAC_SDK += "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/"
+        QMAKE_MAC_SDK += "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/"
     }
 }
 
 OTHER_FILES +=
+
+DISTFILES += \
+    sources/ExpMainWindow.qml \
+    sources/SettingPage.qml
 

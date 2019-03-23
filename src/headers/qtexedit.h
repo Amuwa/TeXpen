@@ -10,6 +10,8 @@
 #include <QStringList>
 #include <QWidget>
 
+#include <QQuickPaintedItem>
+
 class QTeXEdit;
 class LaTeXHighlighter;
 
@@ -70,13 +72,14 @@ public slots:
     void activateItem(QListWidgetItem* it);
     void copy();
     void cut();
-    void replaceCurrentWordWith(bool b=true);    
+    void replaceCurrentWordWith(bool b=true);
 
 protected slots:
     void updateLineNumberAreaWidth(int newBlockCount);
     void updateLineNumberArea(const QRect &, int);
 
-protected:
+    //protected:
+public:
     virtual void keyPressEvent ( QKeyEvent * e );
     virtual void keyReleaseEvent ( QKeyEvent * e );
     virtual void inputMethodEvent ( QInputMethodEvent * e );
@@ -108,7 +111,5 @@ protected:
 private:
     QTeXEdit *codeEditor;
 };
-
-
 
 #endif // QTEXEDIT_H

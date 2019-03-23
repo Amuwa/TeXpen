@@ -294,6 +294,7 @@ void QTeXEdit::refreshFWords(){
 
 
 void QTeXEdit::keyPressEvent ( QKeyEvent * e ){   
+    qDebug()<<"Key Pressed"<<endl;
     if(cmp!=NULL && (! cmp->isHidden())){
         cmp->setCurrentRow(0);
         if(e->key()==Qt::Key_Up

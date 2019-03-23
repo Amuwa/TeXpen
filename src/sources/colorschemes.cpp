@@ -16,7 +16,7 @@
 
 #include "headers/mainwindow.h"
 #include <QAction>
-
+#include <QString>
 
 QString commentColor="#aaffaa";
 void MainWindow::CreateStyle(int SelectedTheme) {
