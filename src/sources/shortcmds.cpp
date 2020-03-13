@@ -12,10 +12,10 @@ QStringList cmds;
 void setupCmds(){
     if(cmds.isEmpty()){
         //<<"::figure"<<"::table"<<"::eq"
-        cmds.append("::figure");
-        cmds.append("::table");
-        cmds.append("::equation");
-        cmds.append("::article");
-        cmds.append("::beamer");
+        cmds.append(",,figure");
+        cmds.append(",,table");
+        cmds.append(",,equation");
+        cmds.append(",,article");
+        cmds.append(",,beamer");
     }
 }
