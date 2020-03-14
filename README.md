@@ -8,3 +8,25 @@ Since Feb 20, 2019, TeXpen is developed as a response to Alibaba's ***Three Hour
 ***TeXpen*** will try to help scientific writers publish their breakthroughs, hence to advance science and technology of mankind.
 
 
+# Compile
+
+***TeXpen*** is built on the Qt framework ( https://www.qt.io/ ) and can be compiled with Qt Creator:
+1. Install Qt 
+2. Open `texpen.pro` with Qt Creator
+3. Click `build`
+
+Alternatively, you can also compile ***TeXpen*** via command line.
+1. Install Qt
+2. Compile with `qmake` and `make`:
+```
+mkdir build
+cd build
+qmake path/to/texpen.pro
+make
+```
+
+
+
+
+
+
