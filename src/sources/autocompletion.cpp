@@ -209,25 +209,25 @@ void MainWindow::completeWith(QString txt){
         cr.deletePreviousChar();
     }
 
-    if(txt.startsWith("::")){
+    if(txt.startsWith(",,")){
         TextEdit->setFocus();
         autoComp->clear();
         autoComp->hide();
         comSec ="";
         statusBar()->showMessage(tr(""));
-        if(txt.contains("::open")){
+        if(txt.contains(",,open")){
             //
-        }else if(txt.contains("::font")){
+        }else if(txt.contains(",,font")){
             //
-        }else if(txt.contains("::exit")){
+        }else if(txt.contains(",,exit")){
             //
-        }else if(txt.contains("::figure")){
+        }else if(txt.contains(",,figure")){
             insertGraphic();
-        }else if(txt.contains("::table")){
+        }else if(txt.contains(",,table")){
             insertTable();
-        }else if(txt.contains("::equation")){
+        }else if(txt.contains(",,equation")){
             insertEquation();
-        }else if(txt.contains("::article")){
+        }else if(txt.contains(",,article")){
             QFile file(":/article.tex");
             file.open(QFile::ReadOnly | QFile::Text);
             QTextStream Contents(&file);
@@ -237,7 +237,7 @@ void MainWindow::completeWith(QString txt){
 
             TextEdit->insertPlainText(cnt);
             UpdateWindowTitle();
-        }else if(txt.contains("::beamer")){
+        }else if(txt.contains(",,beamer")){
             QFile file(":/slide.tex");
             file.open(QFile::ReadOnly | QFile::Text);
             QTextStream Contents(&file);
