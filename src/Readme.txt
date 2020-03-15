@@ -7,11 +7,12 @@ ABOUT:
 	TeXpen is a text editor, especially for LaTeX users.
 
 WEBPAGE:
+	https://github.com/Amuwa/TeXpen
 	http://www.journalhome.com/texpen/
 
 ACKNOWLEDGEMENT:
 	Based on another project, textpad-editor (http://textpad-editor.sf.net)
-	Thanks to OSCHINA.NET for the git server
+	Thanks to GitHub and OSCHINA.NET for the git server
 
 FAST BUILD:
 	qmake 
@@ -19,7 +20,7 @@ FAST BUILD:
 
 BUILD:
 	For Linux/Unix users:
-		Install Qt development packages (qt-sdk or qt4-* )
+		Install Qt development packages (qt-sdk or qt4-*/qt5-* )
 		Using QtCreator to build the project "texpen.pro",  OR 
 		qmake & make
 
@@ -52,6 +53,12 @@ Features include:
 
 
 Changelog:
+
+周日 3月 15 2020
+- Fix crash problem when building (qt5)
+- Improve the colorscheme/highlighting
+- introduce ",,article", ",,beamer" shortcut to use templates
+
 
 周一 3月 9 01:20:12 2015
 - Add line number
