@@ -170,7 +170,7 @@ void MainWindow::showMsg(QString str){
 #endif
 
     try{
-    equationview->show();
+        equationview->show();
     }catch(std::exception e){
         QString xxmsg(e.what());
         qDebug()<<xxmsg<<endl;
@@ -180,10 +180,10 @@ void MainWindow::showMsg(QString str){
 
 void MainWindow::readProcOutput(){
     //qDebug()<<"MainWindow::readProcOutput()..."<<endl;
-//    QByteArray ba = proc->readAllStandardOutput();
-//    ba += proc->readAllStandardError();
-//    ba += proc->readAll();
-//    qDebug()<<"ba="<<ba<<endl;
+    //    QByteArray ba = proc->readAllStandardOutput();
+    //    ba += proc->readAllStandardError();
+    //    ba += proc->readAll();
+    //    qDebug()<<"ba="<<ba<<endl;
     QByteArray ba = run->getProc()->readAll();
     QString html="<font face=\"courier\" size=\"2\">";
     html.append(ba);

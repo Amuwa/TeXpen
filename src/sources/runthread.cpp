@@ -19,12 +19,14 @@ RunThread::RunThread(QObject *parent) :
     currentCMDidx = 0;
     wnd=nullptr;
     connect(this,SIGNAL(nextCMD()),this,SLOT(runNext()));
+    isrunning = false;
 }
 
 void RunThread::runNext(){
     qDebug()<<"runNext()..."<<endl;
     if(currentCMDidx>=0 && currentCMDidx<commands.count()){
         try{
+            isrunning = true;
             execute(commands.at(currentCMDidx));
         }catch(QException ex){
             if(wnd != nullptr){
@@ -34,6 +36,7 @@ void RunThread::runNext(){
     } else {
         if(wnd!=NULL){
             qDebug()<<"runNext()... call onCmdFailed"<< endl;
+            isrunning=false;
             wnd->onCmdFailed();
         }
     }
@@ -42,6 +45,8 @@ void RunThread::runNext(){
 
 void RunThread::execute(Command cmd){
     qDebug()<<"TO RUN:"<<cmd.program<<"   "<<cmd.arglist.join(",")<<"..."<<endl;
+    isrunning = true;
+    /*
     try{
         if(proc!=NULL){
             if(proc->state()==QProcess::Running){
@@ -57,10 +62,13 @@ void RunThread::execute(Command cmd){
         proc = NULL;
         QString msg(e.what());
         qDebug()<<"execute error :" << msg << endl;
-    }
+    }*/
 
     try{
-        proc = new QProcess;
+        //proc = new QProcess;
+        isrunning = true;
+        QProcess xproc;
+        proc = &xproc;
         connect(proc,SIGNAL(readyRead()),wnd,
                 SLOT(readProcOutput())
                 );
@@ -81,10 +89,17 @@ void RunThread::execute(Command cmd){
         }else{
             proc->start(cmd.program,cmd.arglist);
         }
+        proc->waitForFinished(-1);
+        //if(proc->state()==QProcess::Running){
+        //    proc->terminate();
+        //}
+        proc=nullptr;
         qDebug()<<"RUN Ready."<<endl;
+        isrunning = false;
     }catch(std::exception e){
         QString msg(e.what());
         qDebug()<<msg<<endl;
+        isrunning = false;
     }
 
 }
@@ -208,38 +223,46 @@ void RunThread::AddCommand(QString cmd,QStringList args){
 void RunThread::StopAll(){
     currentCMDidx = 2560;
     if(isRunning()){
-        proc->kill();                
+        if(proc != nullptr){
+            proc->kill();
+        }
     }
-    if(proc!=NULL){
-        delete proc;
-        proc = NULL;
+    if(proc!=nullptr){
+        //delete proc;
+        proc = nullptr;
     }
 }
 
 
 bool RunThread::isCmdRunning(){
-    if(proc==NULL){
+    if(proc==nullptr){
         return false;
     }
-    if(proc->state() == QProcess::Running || proc->state() ==QProcess::Starting){
+    else if(proc->state() == QProcess::Running || proc->state() ==QProcess::Starting){
         return true;
     }
-    return false;
+    return isrunning;
 }
 
 void RunThread::read(){
     //qDebug()<<"RunThread::read() called."<<endl;
+    if(proc != nullptr){
     qDebug()<< proc->readAll()<<endl;
+    }
 }
 
 void RunThread::onReadStd(){
     //qDebug()<<"RunThread::onReadStd() called."<<endl;
+    if(proc != nullptr){
     qDebug()<< proc->readAllStandardOutput()<<endl;
+    }
 }
 
 void RunThread::onReadChannel(){
     //qDebug()<<"RunThread::onReadChannel() called."<<endl;
+    if(proc != nullptr){
     qDebug()<< proc->readChannel()<<endl;
+    }
 }
 
 void RunThread::onFinish(int ec){
@@ -249,6 +272,7 @@ void RunThread::onFinish(int ec){
         if(currentCMDidx<commands.count()){
             emit(nextCMD());
         }else{
+            isrunning = false;
             if(wnd!=NULL){
                 wnd->onCmdFinish();
             }
@@ -258,6 +282,7 @@ void RunThread::onFinish(int ec){
     }catch(std::exception e){
         QString msg(e.what());
         qDebug()<<"ERROR: "<<msg<<endl;
+        isrunning = false;
     }
 }
 
@@ -289,26 +314,26 @@ void RunThread::reset(){
 void RunThread::onError(QProcess::ProcessError er){
     qDebug()<<"onError called."<<endl;
     switch(er){
-        case QProcess::FailedToStart:
-            qDebug()<<"[Error] RunThread: FailedToStart"<<endl;
-            break;
-        case QProcess::Crashed:
-            qDebug()<<"[Error] RunThread: Crashed"<<endl;
-            break;
-        case QProcess::Timedout:
-            qDebug()<<"[Error] RunThread: Timed Out"<<endl;
-            break;
-        case QProcess::WriteError:
-            qDebug()<<"[Error] RunThread: Write Error"<<endl;
-            break;
-        case QProcess::ReadError:
-            qDebug()<<"[Error] RunThread: Read Error"<<endl;
-            break;
-        case QProcess::UnknownError:
-            qDebug()<<"[Error] RunThread: Unknown Error"<<endl;
-            break;
-        default:
-            break;
+    case QProcess::FailedToStart:
+        qDebug()<<"[Error] RunThread: FailedToStart"<<endl;
+        break;
+    case QProcess::Crashed:
+        qDebug()<<"[Error] RunThread: Crashed"<<endl;
+        break;
+    case QProcess::Timedout:
+        qDebug()<<"[Error] RunThread: Timed Out"<<endl;
+        break;
+    case QProcess::WriteError:
+        qDebug()<<"[Error] RunThread: Write Error"<<endl;
+        break;
+    case QProcess::ReadError:
+        qDebug()<<"[Error] RunThread: Read Error"<<endl;
+        break;
+    case QProcess::UnknownError:
+        qDebug()<<"[Error] RunThread: Unknown Error"<<endl;
+        break;
+    default:
+        break;
     }
 
     if(wnd!=NULL){

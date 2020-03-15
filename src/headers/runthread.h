@@ -21,6 +21,7 @@ class RunThread : public QThread
     MainWindow* wnd;
     QList<Command> commands;
     int currentCMDidx;
+    bool isrunning;
 public:
     explicit RunThread(QObject *parent = 0);
     void	run ();

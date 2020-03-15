@@ -28,7 +28,7 @@ git add docs/*
 git add docs/figs/*
 
 
-git commit -m "line number and file saving/reading improvement"
+git commit -m "tag:$*"
 git push origin master
 
 
