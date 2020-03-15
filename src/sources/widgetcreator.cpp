@@ -142,7 +142,7 @@ void MainWindow::Initialize() {
     proc=NULL;
     run = new RunThread(this);
     run->setWindow(this);
-    connect(run,SIGNAL(updateStatus(QString)),this,SLOT(onCmdUpdateStatus(QString)));
+    //connect(run,SIGNAL(updateStatus(QString)),this,SLOT(onCmdUpdateStatus(QString)));
 #ifdef USE_WEBKIT
     ag=NULL;
 #endif

@@ -244,6 +244,76 @@ LaTeXHighlighter::LaTeXHighlighter(QTextDocument *parent)
     FindStr = "";
 }
 
+void LaTeXHighlighter::useTheme(int themeId){
+    switch (themeId) {
+    case 1:
+        keywordFormat.setForeground(QColor("#88ff77"));
+        commentFormat.setForeground(QColor("#ddcc88"));
+        equationFormat.setForeground(Qt::magenta);
+        greeksFormat.setForeground(Qt::cyan);
+        escCharFormat.setForeground(Qt::yellow);
+        break;
+    case 2:
+        keywordFormat.setForeground(QColor("#ff5566"));
+        commentFormat.setForeground(QColor("#888888"));
+        equationFormat.setForeground(Qt::magenta);
+        greeksFormat.setForeground(Qt::cyan);
+        escCharFormat.setForeground(Qt::yellow);
+        break;
+    case 3:
+        keywordFormat.setForeground(Qt::red);
+        commentFormat.setForeground(QColor("#ddcc88"));
+        equationFormat.setForeground(Qt::magenta);
+        greeksFormat.setForeground(Qt::cyan);
+        escCharFormat.setForeground(Qt::yellow);
+        break;
+    case 4:
+        keywordFormat.setForeground(Qt::blue);
+        commentFormat.setForeground(QColor("#cc9977"));
+        equationFormat.setForeground(Qt::magenta);
+        greeksFormat.setForeground(Qt::cyan);
+        escCharFormat.setForeground(Qt::yellow);
+        break;
+    case 5:
+        keywordFormat.setForeground(QColor("#ffaa88"));
+        commentFormat.setForeground(QColor("#77ca88"));
+        equationFormat.setForeground(Qt::magenta);
+        greeksFormat.setForeground(Qt::cyan);
+        escCharFormat.setForeground(Qt::yellow);
+        break;
+    case 6:
+        keywordFormat.setForeground(Qt::red);
+        commentFormat.setForeground(Qt::green);
+        equationFormat.setForeground(Qt::magenta);
+        greeksFormat.setForeground(Qt::cyan);
+        escCharFormat.setForeground(Qt::yellow);
+        break;
+    case 7:
+        keywordFormat.setForeground(Qt::blue);
+        commentFormat.setForeground(Qt::green);
+        equationFormat.setForeground(Qt::magenta);
+        greeksFormat.setForeground(Qt::cyan);
+        escCharFormat.setForeground(Qt::yellow);
+        break;
+    case 8:
+        keywordFormat.setForeground(Qt::blue);
+        commentFormat.setForeground(Qt::green);
+        equationFormat.setForeground(Qt::magenta);
+        greeksFormat.setForeground(Qt::cyan);
+        escCharFormat.setForeground(Qt::yellow);
+        break;
+    default:
+        keywordFormat.setForeground(Qt::blue);
+        commentFormat.setForeground(Qt::green);
+        equationFormat.setForeground(Qt::magenta);
+        greeksFormat.setForeground(Qt::cyan);
+        escCharFormat.setForeground(Qt::yellow);
+        break;
+    }
+}
+
+
+
 void LaTeXHighlighter::ParseDocument()
 {
     if(isParsing)
@@ -556,7 +626,7 @@ void LaTeXHighlighter::realHighlight(const QString& text )
 
     if(pos<len)
     {
-        commentFormat.setForeground(QColor(commentColor));//(Qt::green);
+        //commentFormat.setForeground(QColor(commentColor));//(Qt::green);
         commentFormat.setFontItalic(true);
         setFormat(pos,len-pos, commentFormat);
     }

@@ -129,9 +129,11 @@ void MainWindow::CreateStyle(int SelectedTheme) {
         StyleSheet2.clear();
     }
 
+    TextEdit->setThemeId(Settings.ColorScheme);
     TextEdit->setStyleSheet(StyleSheet);
     structure->setStyleSheet(StyleSheet2);
     if(highlighter!=NULL){
+        highlighter->useTheme(Settings.ColorScheme);
         highlighter->rehighlight();
     }
 }

@@ -101,6 +101,8 @@ public:
 
     QStringList spellSuggestion(QString word);
 
+    void useTheme(int themeId);
+
 
 signals:
     void pleaseRender(int blockNumber);

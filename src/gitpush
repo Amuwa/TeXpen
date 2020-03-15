@@ -28,7 +28,7 @@ git add docs/*
 git add docs/figs/*
 
 
-git commit -m "tag:$*"
+git commit -m "cmt:$*"
 git push origin master
 
 

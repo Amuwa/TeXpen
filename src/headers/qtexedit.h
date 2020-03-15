@@ -35,6 +35,7 @@ class QTeXEdit : public QPlainTextEdit
     Completor* cmp;
     Hunspell* sChecker;
     LaTeXHighlighter* highlighter;
+    int themeId;
 public:
     explicit QTeXEdit(QWidget *parent = 0);
     void setCompleter(Completor *w);
@@ -57,6 +58,8 @@ public:
     int lastVisibleBlockNumber();
 
     QString keywordForSearch;
+
+    void setThemeId(int thmid){themeId = thmid;}
 
 signals:
     void askToComplete(QString);

@@ -67,6 +67,7 @@ QTeXEdit::QTeXEdit(QWidget *parent) :
     highlighter=NULL;
     frequentWords.clear();
     lineNumberArea = new LineNumberArea(this);
+    themeId =0;
 
     connect(this, SIGNAL(blockCountChanged(int)), this, SLOT(updateLineNumberAreaWidth(int)));
     connect(this, SIGNAL(updateRequest(QRect,int)), this, SLOT(updateLineNumberArea(QRect,int)));
@@ -126,6 +127,7 @@ void QTeXEdit::lineNumberAreaPaintEvent(QPaintEvent *event)
     }
     int thisbottom = blockNumber;
     if(highlighter!=NULL && (thistop != lastVTP || thisbottom != lastVBN )  ){
+        highlighter->useTheme(this->themeId);
         highlighter->rehighlight();
         lastVTP = thistop;
         lastVBN = thisbottom;
@@ -140,6 +142,7 @@ void QTeXEdit::resizeEvent(QResizeEvent *e)
     QRect cr = contentsRect();
     lineNumberArea->setGeometry(QRect(cr.left(), cr.top(), lineNumberAreaWidth(), cr.height()));
     if(highlighter!=NULL){
+        highlighter->useTheme(this->themeId);
         highlighter->rehighlight();
     }
 }
@@ -250,6 +253,7 @@ void QTeXEdit::contextMenuEvent(QContextMenuEvent *event)
 
 void QTeXEdit:: manuallyHighlight(){
     if(highlighter!=NULL){
+        highlighter->useTheme(this->themeId);
         highlighter->rehighlight();
     }
 }

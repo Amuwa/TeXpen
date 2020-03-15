@@ -106,6 +106,7 @@ void MainWindow::ApplySettings() {
                 QString dicfile=QDir::homePath()+"/.TeXpen/dicts/en_US.dic";
                 highlighter->setDict(dicfile);
                 highlighter->enableSpellCheck(true);
+                highlighter->useTheme(Settings.ColorScheme);
                 highlighter->rehighlight();
             }
         }else{
@@ -114,6 +115,7 @@ void MainWindow::ApplySettings() {
             SpellCheck_US->setChecked(false);
             if(highlighter!=NULL){
                 highlighter->enableSpellCheck(false);
+                highlighter->useTheme(Settings.ColorScheme);
                 highlighter->rehighlight();
             }
         }
