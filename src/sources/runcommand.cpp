@@ -17,6 +17,9 @@
 #include <QWebFrame>
 #endif
 
+#ifdef USE_WEB_ENGIN_PDF_VIEWER
+#include <QWebEngineSettings>
+#endif
 
 //QtConcurrent::run
 
@@ -81,6 +84,14 @@ void MainWindow::onCmdFinish(){
 #ifdef USE_WEBKIT
             QWebSettings::clearMemoryCaches ();//!!!
 #endif
+#ifdef USE_WEB_ENGIN_PDF_VIEWER
+            QFileInfo ff(FileName);
+            QString fp = ff.absolutePath()+"/"+ff.baseName()+".pdf";
+            wiki->page()->settings()->setAttribute(QWebEngineSettings::PluginsEnabled,true);
+            wiki->page()->settings()->setAttribute(QWebEngineSettings::PdfViewerEnabled,true);
+            QString furl = "file://"+fp;
+            wiki->page()->load(QUrl(furl));
+#else
             QString basePath = QDir::homePath()+"/.TeXpen/pdf-js/";
             QFileInfo ff(FileName);
             //QString ur = "file://"+basePath+"web/viewer.html?file="+ff.absolutePath()+"/"+ff.baseName()+".pdf#"+page;
@@ -96,6 +107,7 @@ void MainWindow::onCmdFinish(){
             //pdfBase64 = "data:application/pdf;base64,"+QString::fromLocal8Bit(cnt.toBase64());
             bindJSobj();
             wiki->load(QUrl(ur));
+#endif
             return;
         }
     }

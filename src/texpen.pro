@@ -13,6 +13,9 @@ greaterThan(QT_MAJOR_VERSION, 4): { #Qt5
     greaterThan(QT_MINOR_VERSION,4):{ # >= Qt 5.5
         QT += webenginewidgets
         DEFINES += USE_QT_WEB_ENGINE
+        greaterThan(QT_MINOR_VERSION,13):{
+            DEFINES += USE_WEB_ENGIN_PDF_VIEWER
+        }
     }else:{
         QT += webkitwidgets script
         DEFINES += USE_WEBKIT

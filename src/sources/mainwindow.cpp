@@ -27,8 +27,8 @@ MainWindow::MainWindow()
 void MainWindow::AboutTextpad()
 {
     QString Message = "<h2>" + qApp->applicationName() + " " + qApp->applicationVersion() + "</h2>"
-                      + "<a href=\"http://www.journalhome.com/texpen/\">http://www.journalhome.com/texpen/</a><br><br>"
-                      + "Copyright (C) 2013-2016 <a href=\"https://me.alipay.com/amuwa\">Wang Mengchang</a><br><br>Based On <a href='http://sf.net/p/textpad-editor'><b>Textpad Editor</b></a> <br> Copyright (C) 2013 Alex S.<br>"
+                      + "<a href=\"https://github.com/Amuwa/TeXpen\">https://github.com/Amuwa/TeXpen</a><br><br>"
+                      + "Copyright (C) 2013-2020 <a href=\"https://github.com/Amuwa\">Wang Mengchang</a><br><br>Based On <a href='http://sf.net/p/textpad-editor'><b>Textpad Editor</b></a> <br> Copyright (C) 2013 Alex S.<br>"
                       + tr("<br>The icons used in this application come from the "
                            "<a href = 'http://code.google.com/p/faenza-icon-theme/'>"
                            "Fenza Icon Theme</a>.<br><br>"
@@ -42,7 +42,7 @@ void MainWindow::AboutTextpad()
                            "Read a copy of the <a href = 'http://www.gnu.org/licenses/gpl-3.0.txt'>"
                            "GPL 3.0 License</a> for more information.<br>"
                            "<hr>"
-                           "Since Feb 20, 2019, TeXpen is developed as a response to Alibaba's <b>Three-Hour Volunteer Program</b>, which encourages people to do charity by contributing three hours of service to her/his community every year."
+                           "Since Feb 20, 2019, TeXpen is developed as a response to Alibaba's <b>Three Hours for a Better World</b> initiative, which encourages people to do charity by contributing three hours of service to her/his community every year."
                            "<hr>"
                            "<a href='http://huati.weibo.com/k/TeXpen'>TeXpen on Weibo</a><br>"
                            "<a href='https://twitter.com/search?q=TeXpen%20latex'>TeXpen on Twitter</a><br>"

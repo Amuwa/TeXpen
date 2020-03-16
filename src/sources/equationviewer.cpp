@@ -12,6 +12,12 @@
 #include <QVector>
 #include <QDebug>
 
+#ifdef USE_WEB_ENGIN_PDF_VIEWER
+#include <QWebEngineSettings>
+#endif
+
+
+
 QString eqRec="";
 
 bool MainWindow::isInlineEquation(){
@@ -33,56 +39,56 @@ bool MainWindow::isInlineEquation(){
     if(st.isNull()){
         return false;
     }
+    while(isTexComment(st)){
+        st = TextEdit->document()->find("$",st.position()+1);
+        if(st.isNull()){
+            return false;
+        }
+    }
+    QTextCursor et = TextEdit->document()->find("$",st.position()+1);
+    if(et.isNull()){
+        return false;
+    }
+    while(isTexComment(et)){
+        et = TextEdit->document()->find("$",et.position()+1);
+        if(et.isNull()){
+            return false;
+        }
+    }
+    //
+
+    while(et.position() - st.position() <2
+          || (st.position()<pos && et.position() < pos)
+
+          ){
+        st = TextEdit->document()->find("$",et.position()+1);
+        if(st.isNull()){
+            return false;
+        }
         while(isTexComment(st)){
             st = TextEdit->document()->find("$",st.position()+1);
             if(st.isNull()){
                 return false;
             }
         }
-    QTextCursor et = TextEdit->document()->find("$",st.position()+1);
-    if(et.isNull()){
-        return false;
-    }
+        et = TextEdit->document()->find("$",st.position()+1);
+        if(et.isNull()){
+            return false;
+        }
         while(isTexComment(et)){
             et = TextEdit->document()->find("$",et.position()+1);
             if(et.isNull()){
                 return false;
             }
         }
-   //
-
-        while(et.position() - st.position() <2
-              || (st.position()<pos && et.position() < pos)
-
-              ){
-            st = TextEdit->document()->find("$",et.position()+1);
-            if(st.isNull()){
-                return false;
-            }
-                    while(isTexComment(st)){
-                        st = TextEdit->document()->find("$",st.position()+1);
-                        if(st.isNull()){
-                            return false;
-                        }
-                    }
-            et = TextEdit->document()->find("$",st.position()+1);
-            if(et.isNull()){
-                return false;
-            }
-                    while(isTexComment(et)){
-                        et = TextEdit->document()->find("$",et.position()+1);
-                        if(et.isNull()){
-                            return false;
-                        }
-                    }
-        }
-        //
-        if(et.position() - st.position() >= 2
-                && (st.position()<pos && et.position() > pos)){
-            eqRec=TextEdit->toPlainText().mid(st.position(), et.position() - st.position());
-            return true;
-        }
-        return false;
+    }
+    //
+    if(et.position() - st.position() >= 2
+            && (st.position()<pos && et.position() > pos)){
+        eqRec=TextEdit->toPlainText().mid(st.position(), et.position() - st.position());
+        return true;
+    }
+    return false;
 
 }
 
@@ -103,22 +109,22 @@ bool MainWindow::isNowEquation() //judge wheather the cursor is in an equation
     if(st.isNull()){
         return false;
     }
-        while(isTexComment(st)){
-            st = TextEdit->document()->find("\\begin{equation}",st.position()+1);
-            if(st.isNull()){
-                return false;
-            }
+    while(isTexComment(st)){
+        st = TextEdit->document()->find("\\begin{equation}",st.position()+1);
+        if(st.isNull()){
+            return false;
         }
+    }
     QTextCursor et = TextEdit->document()->find("\\end{equation}",st.position());
     if(et.isNull()){
-            return false;
+        return false;
     }
-        while(isTexComment(et)){
-            et = TextEdit->document()->find("\\begin{equation}",et.position()+1);
-            if(et.isNull()){
-                break;
-            }
+    while(isTexComment(et)){
+        et = TextEdit->document()->find("\\begin{equation}",et.position()+1);
+        if(et.isNull()){
+            break;
         }
+    }
     if(st.isNull()){
         return false;
     }else if (et.isNull()){
@@ -127,19 +133,19 @@ bool MainWindow::isNowEquation() //judge wheather the cursor is in an equation
     while(st.position() < pos && et.position()< pos){
 
         st = TextEdit->document()->find("\\begin{equation}",et.position() +1 );
-                while(isTexComment(st)){
-                    st = TextEdit->document()->find("\\begin{equation}",st.position()+1);
-                    if(st.isNull()){
-                        return false;
-                    }
-                }
+        while(isTexComment(st)){
+            st = TextEdit->document()->find("\\begin{equation}",st.position()+1);
+            if(st.isNull()){
+                return false;
+            }
+        }
         et = TextEdit->document()->find("\\end{equation}",st.position());
-                while(isTexComment(et)){
-                    et = TextEdit->document()->find("\\begin{equation}",et.position()+1);
-                    if(et.isNull()){
-                        break;
-                    }
-                }
+        while(isTexComment(et)){
+            et = TextEdit->document()->find("\\begin{equation}",et.position()+1);
+            if(et.isNull()){
+                break;
+            }
+        }
 
         if( st.isNull() || et.isNull() ){
             return false;
@@ -153,70 +159,70 @@ bool MainWindow::isNowEquation() //judge wheather the cursor is in an equation
 }
 
 bool MainWindow::isNowEquation(QString sts, QString eds){
-     QTextCursor cs = TextEdit->textCursor();
-     if(isTexComment(cs)){
-         return false;
-     }
-     int pos = cs.position();
-     int stpos = pos - 2500;
-     if(stpos<0){
-         stpos=0;
-     }
-     QTextCursor pCur(TextEdit->document());
-     pCur.setPosition(stpos);
+    QTextCursor cs = TextEdit->textCursor();
+    if(isTexComment(cs)){
+        return false;
+    }
+    int pos = cs.position();
+    int stpos = pos - 2500;
+    if(stpos<0){
+        stpos=0;
+    }
+    QTextCursor pCur(TextEdit->document());
+    pCur.setPosition(stpos);
 
-     QTextCursor st = TextEdit->document()->find(sts,pCur);
-     if(st.isNull()){
-         return false;
-     }
-     while(isTexComment(st)){
-         st = TextEdit->document()->find(sts,st.position()+1);
-         if(st.isNull()){
-             return false;
-         }
-     }
+    QTextCursor st = TextEdit->document()->find(sts,pCur);
+    if(st.isNull()){
+        return false;
+    }
+    while(isTexComment(st)){
+        st = TextEdit->document()->find(sts,st.position()+1);
+        if(st.isNull()){
+            return false;
+        }
+    }
 
-     QTextCursor et = TextEdit->document()->find(eds,st.position());
-     if(et.isNull()){
-             return false;
-     }
-     while(isTexComment(et)){
-         et = TextEdit->document()->find(sts,et.position()+1);
-         if(et.isNull()){
-             break;
-         }
-     }
+    QTextCursor et = TextEdit->document()->find(eds,st.position());
+    if(et.isNull()){
+        return false;
+    }
+    while(isTexComment(et)){
+        et = TextEdit->document()->find(sts,et.position()+1);
+        if(et.isNull()){
+            break;
+        }
+    }
 
-     if(st.isNull()){
-         return false;
-     }else if (et.isNull()){
-         return false;
-     }
-     while(st.position() < pos && et.position()< pos){
-         st = TextEdit->document()->find(sts,et.position() +1 );
-                 while(isTexComment(st)){
-                     st = TextEdit->document()->find(sts,st.position()+1);
-                     if(st.isNull()){
-                         return false;
-                     }
-                 }
-         et = TextEdit->document()->find(eds,st.position());
-                 while(isTexComment(et)){
-                     et = TextEdit->document()->find(sts,et.position()+1);
-                     if(et.isNull()){
-                         break;
-                     }
-                 }
+    if(st.isNull()){
+        return false;
+    }else if (et.isNull()){
+        return false;
+    }
+    while(st.position() < pos && et.position()< pos){
+        st = TextEdit->document()->find(sts,et.position() +1 );
+        while(isTexComment(st)){
+            st = TextEdit->document()->find(sts,st.position()+1);
+            if(st.isNull()){
+                return false;
+            }
+        }
+        et = TextEdit->document()->find(eds,st.position());
+        while(isTexComment(et)){
+            et = TextEdit->document()->find(sts,et.position()+1);
+            if(et.isNull()){
+                break;
+            }
+        }
 
-         if( st.isNull() || et.isNull() ){
-             return false;
-         }
-     }
-     if(st.position() < pos && et.position()> pos){
-         eqRec=TextEdit->toPlainText().mid(st.position(), et.position() - st.position());
-         return true;
-     }
-     return false;
+        if( st.isNull() || et.isNull() ){
+            return false;
+        }
+    }
+    if(st.position() < pos && et.position()> pos){
+        eqRec=TextEdit->toPlainText().mid(st.position(), et.position() - st.position());
+        return true;
+    }
+    return false;
 }
 
 
@@ -406,20 +412,20 @@ void MainWindow::goToGoogleSearch(){
 
 
 QString don="<html><body>"
-        "<h3>Please Suppoert TeXpen</h3><br><hr><br>"
-        "<b>PayPal donation:</b><br>"
-        "<form action=\"https://www.paypal.com/cgi-bin/webscr\" method=\"post\"> "
-        "<p style=\"text-align: center;\">"
-        "<input name=\"cmd\" value=\"_donations\" type=\"hidden\"> "
-        "<input name=\"business\" value=\"wangmengchang@gmail.com\" type=\"hidden\"> "
-        "<input name=\"lc\" value=\"C2\" type=\"hidden\"> "
-        "<input name=\"item_name\" value=\"Support TeXpen\" type=\"hidden\"> "
-        "<input name=\"no_note\" value=\"0\" type=\"hidden\"> <input name=\"currency_code\" value=\"USD\" type=\"hidden\"> "
-        "<input name=\"bn\" value=\"PP-DonationsBF:btn_donateCC_LG.gif:NonHostedGuest\" type=\"hidden\"> "
-        "<input alt=\"PayPal\" name=\"submit\" src=\"https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif\" border=\"0\" type=\"image\"> "
-        "<img alt=\"\" src=\"https://www.paypalobjects.com/en_US/i/scr/pixel.gif\" border=\"0\" height=\"1\" width=\"1\"></p>"
-        "</form>"
-        "</body></html>";
+            "<h3>Please Suppoert TeXpen</h3><br><hr><br>"
+            "<b>PayPal donation:</b><br>"
+            "<form action=\"https://www.paypal.com/cgi-bin/webscr\" method=\"post\"> "
+            "<p style=\"text-align: center;\">"
+            "<input name=\"cmd\" value=\"_donations\" type=\"hidden\"> "
+            "<input name=\"business\" value=\"wangmengchang@gmail.com\" type=\"hidden\"> "
+            "<input name=\"lc\" value=\"C2\" type=\"hidden\"> "
+            "<input name=\"item_name\" value=\"Support TeXpen\" type=\"hidden\"> "
+            "<input name=\"no_note\" value=\"0\" type=\"hidden\"> <input name=\"currency_code\" value=\"USD\" type=\"hidden\"> "
+            "<input name=\"bn\" value=\"PP-DonationsBF:btn_donateCC_LG.gif:NonHostedGuest\" type=\"hidden\"> "
+            "<input alt=\"PayPal\" name=\"submit\" src=\"https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif\" border=\"0\" type=\"image\"> "
+            "<img alt=\"\" src=\"https://www.paypalobjects.com/en_US/i/scr/pixel.gif\" border=\"0\" height=\"1\" width=\"1\"></p>"
+            "</form>"
+            "</body></html>";
 
 #include <QDesktopServices>
 void MainWindow::showDonate(){
@@ -520,22 +526,16 @@ void MainWindow::ParseGinger(){
             }else{
                 wiki->setHtml(res);
             }
-
         }
     }
 }
 
 
 QString removeComment(QString & sec){
-
-
     QString nl = QString::fromUtf8("\u2029");//unicode 2029, paragraph character
-
     QString tp = sec.replace(nl,"\n");
     sec = tp;
-
     int pos =0;
-
     pos = sec.indexOf("%",pos);
     while(pos>=0){
         //qDebug()<<"Pos =" <<pos<<endl;
@@ -554,10 +554,8 @@ QString removeComment(QString & sec){
             pos = sec.indexOf("%");
         }
     }
-
     //QString tmp2 = sec.replace("\n"," ");
     //sec = tmp2;
-
     return sec;
 }
 
@@ -588,7 +586,6 @@ void MainWindow::showGinger(QString sec){
     TextEdit->setFocus();
 }
 
-
 void MainWindow::realTimeGinger(QString ch){
     Q_UNUSED(ch);
     //get the last sentence
@@ -608,8 +605,6 @@ void MainWindow::realTimeGinger(QString ch){
         showGinger(para);
     }
 }
-
-
 
 //preview PDF
 #include <QDir>
@@ -632,12 +627,10 @@ QFileInfoList getInfoList(QFileInfo info){
     if(info.isDir()){
         QFileInfoList sublist = QDir(info.absoluteFilePath()).entryInfoList(); //qDebug()<<"\t -->"<<endl;
         foreach(QFileInfo ii, sublist){
-
-                QFileInfoList sslist = getInfoList(ii);
-                foreach(QFileInfo iii, sslist){
-                    rs.append(iii); //qDebug()<< iii.absoluteFilePath()<<endl;
-                }
-
+            QFileInfoList sslist = getInfoList(ii);
+            foreach(QFileInfo iii, sslist){
+                rs.append(iii); //qDebug()<< iii.absoluteFilePath()<<endl;
+            }
         }
 
     }else{
@@ -649,6 +642,10 @@ QFileInfoList getInfoList(QFileInfo info){
 
 
 void preparePDFjs(){
+#ifdef USE_WEB_ENGIN_PDF_VIEWER
+    return;
+#else
+
     QString basePath = QDir::homePath()+"/.TeXpen/pdf-js/";
 
     qDebug()<<basePath<<endl;
@@ -668,7 +665,7 @@ void preparePDFjs(){
         //qDebug()<<fx.absoluteFilePath()<<endl;
         QString src = fx.absoluteFilePath();
         QString dest =src;
-                dest = basePath+ dest.replace(":/pdf-js/","");
+        dest = basePath+ dest.replace(":/pdf-js/","");
         QString srcdir = fx.absoluteDir().absolutePath();
         QString destdir = srcdir;
         destdir = basePath+ destdir.replace(":/pdf-js/","");
@@ -683,14 +680,10 @@ void preparePDFjs(){
         QFile::setPermissions(dest,QFile::ReadUser|QFile::ReadGroup|QFile::ReadOther);
     }
 
-
-
-
-
     //qDebug()<<"Over."<<endl;
 
     return;
-
+#endif
 }
 
 // the return value is not reliable,use the out param!
@@ -703,12 +696,12 @@ void MainWindow::preview(){
     //wikiview->hide();
 
     int w =int(TextEdit->geometry().width()*0.95/2);
-    qDebug()<<"w0 = "<<w<<endl;    
+    qDebug()<<"w0 = "<<w<<endl;
 
     if(!wikiview->isHidden()){
         if(wikiview->windowTitle().toLower().contains("pdf")){
             pdfpage = getPage(wiki, &pdfpage);
-            wikiview->hide();            
+            wikiview->hide();
             return;
         }
 
@@ -726,7 +719,7 @@ void MainWindow::preview(){
     }
 
 
-   // wikiview->hide();
+    // wikiview->hide();
 
     wikiview->setWindowTitle("PDF Preview");
     wikiview->setFixedWidth(w);
@@ -742,7 +735,7 @@ void MainWindow::preview(){
         wiki->load(u);
     }else{
 
-        QFileInfo ff(FileName);        
+        QFileInfo ff(FileName);
         QString fu = ff.absolutePath()+"/"+ff.baseName()+".pdf";//QUrl::fromLocalFile(ff.absolutePath()+"/"+ff.baseName()+".pdf").toString();//
 
 #ifdef USE_WEBKIT
@@ -768,11 +761,19 @@ void MainWindow::preview(){
         wiki->page()->mainFrame()->load(u);
 #endif
 #ifdef USE_QT_WEB_ENGINE
+#ifdef USE_WEB_ENGIN_PDF_VIEWER
+        wiki->page()->settings()->setAttribute(QWebEngineSettings::PluginsEnabled,true);
+        wiki->page()->settings()->setAttribute(QWebEngineSettings::PdfViewerEnabled,true);
+        QString furl = "file://"+fu;
+        wiki->page()->load(QUrl(furl));
+#else
         QString pathToPDFjs = "qrc:///pdf-js/web/viewer.html";//a.absolutePath()+"/web/viewer.html";//
         QString loc = pathToPDFjs + QString("?file=file://") + fu;
         qDebug()<<"loading ["+loc+"]..."<<endl;
         QUrl u = QUrl::fromUserInput(loc);
         wiki->page()->load(u);
+
+#endif
 #endif
     }
 
@@ -780,7 +781,7 @@ void MainWindow::preview(){
 
     wikiview->setMinimumWidth(1);
     wikiview->setMaximumWidth(1200);
-    TextEdit->setFocus();   
+    TextEdit->setFocus();
 }
 
 ////// to use MaxJax show realtime content
@@ -844,11 +845,11 @@ QString removeCommentx(QString cnt)
 void MainWindow::realtimePreview(){
     int w =int(TextEdit->geometry().width()*0.95/2);
     if(!wikiview->isHidden()){
-//        if(wikiview->windowTitle().toLower().contains("preview")){
-//            pdfpage = getPage(wiki, &pdfpage);
-//            wikiview->hide();
-//            return;
-//        }
+        //        if(wikiview->windowTitle().toLower().contains("preview")){
+        //            pdfpage = getPage(wiki, &pdfpage);
+        //            wikiview->hide();
+        //            return;
+        //        }
 
         w= int((TextEdit->geometry().width()+wikiview->geometry().width())*0.95/2);
     }
@@ -866,17 +867,17 @@ void MainWindow::realtimePreview(){
     }
 
     txt = removeComment(txt);
-            while(txt.contains(" \n")){
-                txt.replace(" \n","\n");
-            }
-            while(txt.contains("\n\n\n")){
-                txt.replace("\n\n\n","\n\n");
-            }
+    while(txt.contains(" \n")){
+        txt.replace(" \n","\n");
+    }
+    while(txt.contains("\n\n\n")){
+        txt.replace("\n\n\n","\n\n");
+    }
 
-            txt.replace("\n\n","<p>");
-            txt.replace("\\begin{itemize}", "<p>");
-            txt.replace("\\end{itemize}", "<p>");
-            txt.replace("\\item", "<br>");
+    txt.replace("\n\n","<p>");
+    txt.replace("\\begin{itemize}", "<p>");
+    txt.replace("\\end{itemize}", "<p>");
+    txt.replace("\\item", "<br>");
 
 
 
@@ -891,7 +892,7 @@ void MainWindow::realtimePreview(){
     wiki->page()->setHtml(html);
 #endif
 
-     wikiview->show();
+    wikiview->show();
 
     wikiview->setWindowTitle("Realtime Preview");
     wikiview->setFixedWidth(w);

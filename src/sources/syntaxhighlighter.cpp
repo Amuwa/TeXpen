@@ -251,16 +251,18 @@ void LaTeXHighlighter::useTheme(int themeId){
         commentFormat.setForeground(QColor("#ddcc88"));
         equationFormat.setForeground(Qt::magenta);
         greeksFormat.setForeground(Qt::cyan);
-        escCharFormat.setForeground(Qt::yellow);
+        escCharFormat.setForeground(QColor("#dd88fa"));
         break;
     case 2:
+        //dusk
         keywordFormat.setForeground(QColor("#ff5566"));
         commentFormat.setForeground(QColor("#888888"));
         equationFormat.setForeground(Qt::magenta);
-        greeksFormat.setForeground(Qt::cyan);
-        escCharFormat.setForeground(Qt::yellow);
+        greeksFormat.setForeground(QColor("#128523"));
+        escCharFormat.setForeground(QColor("#ff22ed"));
         break;
     case 3:
+        //hacher
         keywordFormat.setForeground(Qt::red);
         commentFormat.setForeground(QColor("#ddcc88"));
         equationFormat.setForeground(Qt::magenta);
@@ -268,13 +270,15 @@ void LaTeXHighlighter::useTheme(int themeId){
         escCharFormat.setForeground(Qt::yellow);
         break;
     case 4:
+        //light
         keywordFormat.setForeground(Qt::blue);
         commentFormat.setForeground(QColor("#cc9977"));
         equationFormat.setForeground(Qt::magenta);
-        greeksFormat.setForeground(Qt::cyan);
-        escCharFormat.setForeground(Qt::yellow);
+        greeksFormat.setForeground(QColor("#128523"));
+        escCharFormat.setForeground(QColor("#fd55fe"));
         break;
     case 5:
+        //navy
         keywordFormat.setForeground(QColor("#ffaa88"));
         commentFormat.setForeground(QColor("#77ca88"));
         equationFormat.setForeground(Qt::magenta);
@@ -282,6 +286,7 @@ void LaTeXHighlighter::useTheme(int themeId){
         escCharFormat.setForeground(Qt::yellow);
         break;
     case 6:
+        //night
         keywordFormat.setForeground(Qt::red);
         commentFormat.setForeground(Qt::green);
         equationFormat.setForeground(Qt::magenta);
@@ -289,18 +294,20 @@ void LaTeXHighlighter::useTheme(int themeId){
         escCharFormat.setForeground(Qt::yellow);
         break;
     case 7:
+        //normal
         keywordFormat.setForeground(Qt::blue);
-        commentFormat.setForeground(Qt::green);
+        commentFormat.setForeground(QColor("#559955"));
         equationFormat.setForeground(Qt::magenta);
-        greeksFormat.setForeground(Qt::cyan);
-        escCharFormat.setForeground(Qt::yellow);
+        greeksFormat.setForeground(QColor("#885533"));
+        escCharFormat.setForeground(QColor("#ff5566"));
         break;
     case 8:
+        //paper
         keywordFormat.setForeground(Qt::blue);
-        commentFormat.setForeground(Qt::green);
+        commentFormat.setForeground(QColor("#559955"));
         equationFormat.setForeground(Qt::magenta);
-        greeksFormat.setForeground(Qt::cyan);
-        escCharFormat.setForeground(Qt::yellow);
+        greeksFormat.setForeground(QColor("#885533"));
+        escCharFormat.setForeground(QColor("#ff5566"));
         break;
     default:
         keywordFormat.setForeground(Qt::blue);
